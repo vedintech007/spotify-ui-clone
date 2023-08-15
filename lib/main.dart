@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:desktop_window/desktop_window.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:spotify_clone/widgets/side_menu.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -54,10 +55,12 @@ class MyApp extends StatelessWidget {
           ),
         ),
       ),
+      themeMode: ThemeMode.dark,
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(
           background: const Color(0xFF121212),
           seedColor: Colors.deepPurple,
+          // primary: Colors.green,
         ),
         useMaterial3: false,
       ),
@@ -74,15 +77,9 @@ class Shell extends StatelessWidget {
     return Scaffold(
       body: Column(
         children: [
-          Expanded(
+          const Expanded(
             child: Row(
-              children: [
-                Container(
-                  height: double.infinity,
-                  width: 280,
-                  color: Colors.green,
-                )
-              ],
+              children: [SideMenu()],
             ),
           ),
           Container(
