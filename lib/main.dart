@@ -4,7 +4,12 @@ import 'dart:io';
 import 'package:desktop_window/desktop_window.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:spotify_clone/widgets/side_menu.dart';
+import 'package:spotify_clone/data/data.dart';
+import 'package:spotify_clone/models/current_track.dart';
+import 'package:spotify_clone/screens/screens.dart';
+import 'package:provider/provider.dart';
+
+import 'widgets/widgets.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -12,7 +17,14 @@ void main() async {
     log("App Initialized");
     await DesktopWindow.setMinWindowSize(const Size(600, 800));
   }
-  runApp(const MyApp());
+  runApp(
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => CurrentTrackModel()),
+      ],
+      child: const MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -77,16 +89,19 @@ class Shell extends StatelessWidget {
     return Scaffold(
       body: Column(
         children: [
-          const Expanded(
+          Expanded(
             child: Row(
-              children: [SideMenu()],
+              children: [
+                if (MediaQuery.of(context).size.width > 800) const SideMenu(),
+                const Expanded(
+                  child: PlayListScreen(
+                    playlist: lofihiphopPlaylist,
+                  ),
+                ),
+              ],
             ),
           ),
-          Container(
-            height: 84,
-            width: double.infinity,
-            color: Colors.blue,
-          )
+          const CurrentTrack(),
         ],
       ),
     );
